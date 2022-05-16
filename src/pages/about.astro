@@ -1,0 +1,11 @@
+---
+import ArticleLayout from "@/components/layouts/ArticleLayout.astro";
+import { Content as AboutContent, frontmatter } from "@/content/about.md";
+
+const { title, lead } = frontmatter;
+---
+
+<ArticleLayout content={{ title, lead }}>
+	{/** @ts-ignore */}
+	<AboutContent />
+</ArticleLayout>

@@ -1,0 +1,19 @@
+---
+export interface Props {
+	currentPage?: number;
+}
+
+const { currentPage } = Astro.props as Props;
+---
+
+<div class="btn-group justify-center">
+	<button class="btn">&larr;</button>
+
+	<button class:list={["btn", { "btn-active": currentPage === 1 }]}>1</button>
+	<button class:list={["btn", { "btn-active": currentPage === 2 }]}>2</button>
+	<button class:list={["btn", { "btn-active": currentPage === 3 }]}>3</button>
+
+	<button class="btn btn-disabled">...</button>
+
+	<button class="btn">&rarr;</button>
+</div>

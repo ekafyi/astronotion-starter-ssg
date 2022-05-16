@@ -1,0 +1,60 @@
+---
+import SvgIcon from "@/components/SvgIcon.astro";
+
+export interface Props {
+	href: string;
+	text?: string;
+}
+
+const { href, text } = Astro.props as Props;
+
+const getHost = (href) => {
+	const url = new URL(href);
+	if (!url) {
+		console.warn(`Invalid social link: ${href}`);
+		return;
+	}
+	return url.host;
+}
+
+const getSocialIconKey = (host) => {
+	switch (host) {
+		case "twitter.com":
+			return "twitter";
+		case "instagram.com":
+			return "instagram";
+		case "facebook.com":
+			return "facebook";
+		case "youtube.com":
+			return "youtube";
+		case "github.com":
+			return "github";
+		case "linkedin.com":
+		case "linked.in":
+			return "linkedin";
+		default:
+			if (host === "spotify.com") {
+				return "fallback_spotify";
+			} else if (host === "dev.to") {
+				return "fallback_dev";
+			}
+			return "fallback_other";
+	}
+};
+
+const host = getHost(href);
+const icon = getSocialIconKey(host);
+const fallbackIcon = icon.startsWith("fallback_") ? icon.replace("fallback_", "") : null;
+
+---
+
+{/** Only render if URL is valid */}
+{host && (
+	<a class="btn btn-square btn-outline border-none focus-visible:bg-base-content focus-visible:text-base-100" href={href} aria-label={text || host}>
+		{fallbackIcon ? (
+			<SvgIcon iconName={fallbackIcon} />
+		) : (
+			<SvgIcon iconName={icon} iconType="feather" />
+		)}
+	</a>
+)}

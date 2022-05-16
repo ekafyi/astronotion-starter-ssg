@@ -1,0 +1,42 @@
+---
+import NavList from "@/components/NavList.astro";
+import SvgIcon from "@/components/SvgIcon.astro";
+import Logo from "@/components/Logo.astro";
+
+const drawerInputId = "main-nav-drawer";
+---
+
+<div class="drawer">
+	<input id={drawerInputId} type="checkbox" class="drawer-toggle" />
+
+	<div class="drawer-content flex flex-col">
+		<div class="navbar w-full bg-base-300">
+			<div class="lg:hidden">
+				<label for="main-nav-drawer" class="btn btn-square btn-ghost">
+					<SvgIcon iconName="menu" iconType="feather" />
+				</label>
+			</div>
+			<div class="flex-1 px-2 lg:mx-2 navbar__logo-container">
+				<Logo />
+			</div>
+			<div class="flex-none hidden lg:block">
+				<NavList navPosition="TOP" />
+			</div>
+			<slot name="custom-menu" />
+		</div>
+		<!-- /.navbar -->
+		<slot />
+	</div>
+	<!-- /.drawer-content -->
+
+	<div class="drawer-side">
+		<label for={drawerInputId} class="drawer-overlay"></label>
+		<div class="overflow-y-auto w-80 bg-base-100">
+			<div class="px-4 py-5 border-b border-base-300">
+				<Logo />
+			</div>
+			<NavList navPosition="SIDE" />
+		</div>
+	</div>
+	<!-- /.drawer-side -->
+</div>

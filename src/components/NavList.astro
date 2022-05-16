@@ -1,0 +1,26 @@
+---
+import anConfig from "@/configs/an-starter-config.mjs";
+
+export interface Props {
+	navPosition: "SIDE" | "TOP";
+}
+
+const { navPosition } = Astro.props as Props;
+
+const classList = [
+	"menu",
+	{ "menu-horizontal": navPosition === "TOP" },
+];
+
+const navs = anConfig.headerContent?.navLinks || [];
+---
+
+<ul class:list={classList}>
+	{navs.map((item) => (
+		<li>
+			<a class="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-opacity-60" href={item.href}>
+				{item.text}
+			</a>
+		</li>
+	))}
+</ul>

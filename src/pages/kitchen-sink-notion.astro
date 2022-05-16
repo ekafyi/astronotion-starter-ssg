@@ -1,0 +1,23 @@
+---
+import ArticleLayout from "@/components/layouts/ArticleLayout.astro";
+import PostMeta from "@/components/PostMeta.astro";
+
+import { NotionBlocks, NotionPageCover } from "astronotion/components";
+import { getStandalonePage } from "astronotion/api";
+
+const EXAMPLE_NOTION_ID = "1cf6f82e-ffc2-4ad4-aea5-a50f88198a7b";
+
+const data = await getStandalonePage(EXAMPLE_NOTION_ID);
+const { title, cover, contents, created, updated } = data;
+---
+
+<ArticleLayout content={{ title }}>
+	<div slot="header-image" class="md:-mb-4">
+		{cover && <NotionPageCover src={cover.url} pictureProps={{ aspect: 4 }} />}
+	</div>
+
+	{/** prettier-ignore */}
+	<PostMeta created={created} updated={updated} />
+
+	<NotionBlocks data={contents} />
+</ArticleLayout>

@@ -1,0 +1,41 @@
+---
+import anConfig from "@/configs/an-starter-config.mjs";
+
+import { formatReadableDate } from "@/lib/format-date";
+
+export interface Props {
+	created: Date | number | string;
+	updated?: Date | number | string;
+}
+
+const { created, updated } = Astro.props as Props;
+
+const { articleByline } = anConfig;
+---
+
+<section class="flex gap-4 items-center mb-8 md:mb-16" aria-label={`${articleByline?.name ? `By ${articleByline.name}, ` : ""}published on ${formatReadableDate(created)}`}>
+	{articleByline?.avatarSrc && (
+		<div class="avatar flex-none not-prose">
+			<div class="w-16 rounded-full">
+				<img src={articleByline.avatarSrc} alt="" width="64" height="64" />
+			</div>
+		</div>
+	)}
+	<div>
+		{articleByline?.name && (
+			<a href={articleByline.url ?? "/"}>{articleByline.name}</a>
+		)}
+		<div class="text-sm flex">
+			<time datetime={new Date(created).toISOString()}>
+				{formatReadableDate(created)}
+			</time>
+			<span aria-hidden class="px-2 opacity-50">&middot;</span>
+			<div>
+				updated
+				<time datetime={new Date(updated).toISOString()}>
+					{formatReadableDate(updated)}
+				</time>
+			</div>
+		</div>
+	</div>
+</section>

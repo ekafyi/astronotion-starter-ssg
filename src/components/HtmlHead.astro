@@ -1,0 +1,109 @@
+---
+import anConfig from "@/configs/an-starter-config.mjs";
+
+export interface Props {
+	title?: string;
+	description?: string;
+	image?: {
+		src: string;
+		width?: number;
+		height?: number;
+	}
+	canonical?: string;
+}
+
+const { siteMeta: siteConfig } = anConfig;
+const props = Astro.props as Props;
+
+// Used for OG image base path, which has to be absolute URL.
+const siteCanonical = Astro.canonicalURL.origin;
+
+// Sitemaps are only generated if site is defined in Astro config.
+// Check whether it's defined by the default value, astro.build.
+const hasSite = new URL(Astro.site).host !== "astro.build";
+
+const titleSeparator = "—";
+const title = props.title ? `${props.title} ${titleSeparator} ${siteConfig.name}` : siteConfig.name;
+
+const description = props.title ?? siteConfig.description;
+
+const canonical = props.canonical ?? Astro.canonicalURL.href;
+
+let image: Props["image"];
+if (props.image?.src) {
+	image = props.image;
+} else if (siteConfig.image?.src) {
+	image = siteConfig.image;
+}
+
+const twitterUsername = siteConfig.twitterUsername ? `${siteConfig.twitterUsername.startsWith("@") ? "" : "@"}${siteConfig.twitterUsername}` : null;
+
+---
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width" />
+	<meta httpequiv="X-UA-Compatible" content="IE=edge"  />
+
+	<!-- Required metadata -->
+	<title>{title}</title>
+	<meta name="description" content={description} />
+
+	<!-- OpenGraph -->
+	<meta property="og:title" content={title} />
+	<meta property="og:description" content={description} />
+	{image && (
+		<Fragment>
+			<meta property="og:image" content={image.src.startsWith("https://") ? image.src : new URL(image.src, siteCanonical).href} />
+			{(image.width && image.height) && (
+				<Fragment>
+					<meta property="og:image:height" content={`${image.height}`} />
+					<meta property="og:image:width" content={`${image.width}`} />
+				</Fragment>
+			)}
+		</Fragment>
+	)}
+	<meta property="og:url" content={canonical} />
+	<meta property="og:type" content="website" />
+	<meta property="og:site_name" content={title} />
+	
+	<!-- Twitter -->
+	<meta name="twitter:title" content={title} />
+	<meta name="twitter:description" content={description} />
+	{image && (
+		<Fragment>
+			<meta name="twitter:image" content={image.src} />
+		</Fragment>
+	)}
+	{twitterUsername && (
+		<Fragment>
+			<meta name="twitter:site" content={twitterUsername} />
+			<meta name="twitter:creator" content={twitterUsername}/>
+		</Fragment>
+	)}
+	<meta name="twitter:card" content={image ? "summary_large_image" : "summary"} />
+
+	<!-- Misc links (canonical, sitemap, RSS) -->
+	<link rel="canonical" href={canonical} />
+	{hasSite && (<link rel="sitemap" href="/sitemap.xml" />)}
+	<!-- 
+		Enable RSS: 
+		https://docs.astro.build/en/guides/rss/#using-astrojsrss-recommended
+	-->
+	<!-- <link rel="alternate" type="application/rss+xml" href="/feed.xml" /> -->
+
+	<!-- PWA & icons -->
+	<link rel="icon" href="/favicon.ico" />
+	<link rel="apple-touch-icon" href="/images/branding/icon-192x192.png" />
+	<!-- <link rel="manifest" href="manifest.json" /> -->
+	<meta name="theme-color" content="#a8dadc" />
+	
+	<!-- 
+		Enable and replace with your preferred font(s) if using webfonts.	
+	-->
+	<!-- 
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<link href="https://fonts.googleapis.com/css2?family=DM+Sans&family=DM+Serif+Text:ital@1&family=IBM+Plex+Sans&family=Manrope&family=Varta&display=swap" rel="stylesheet" />
+	-->
+</head>

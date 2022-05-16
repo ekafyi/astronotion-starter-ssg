@@ -1,0 +1,52 @@
+---
+export interface Props {
+	data: {
+		headingText: string;
+		subheadingText?: string;
+		avatarSrc?: string;
+		avatarAlt?: string;
+		ctaLinks?: { text: string; href: string; }[];
+	};
+}
+
+const { data } = Astro.props as Props;
+
+const { headingText, subheadingText, avatarSrc, avatarAlt, ctaLinks = [] } = data;
+---
+
+<section class="bg-base-200">
+	<div class="max-w-screen-xl px-4 py-32 mx-auto lg:aspect-video lg:items-center lg:flex">
+		<div class="max-w-3xl mx-auto flex flex-col items-center gap-6">
+			{avatarSrc && (
+				<div class="avatar">
+					<div class="w-48 rounded-full">
+						<img src={avatarSrc} alt={avatarAlt ?? ""} width="192" height="192" />
+					</div>
+				</div>
+			)}
+			<h1
+				class="text-3xl font-extrabold text-transparent sm:text-5xl bg-clip-text bg-gradient-to-r from-secondary-focus via-primary-focus to-accent-focus"
+			>
+				{headingText}
+			</h1>
+			{subheadingText && (
+				<p class="max-w-xl mx-auto sm:leading-relaxed sm:text-xl text-base-content/75">
+					{subheadingText}
+				</p>
+			)}
+			{!!ctaLinks.length && (
+				<div class="flex flex-wrap justify-center gap-4 pt-4">
+					<a class="btn btn-primary" href={ctaLinks[0].href}>
+						{ctaLinks[0].text}
+					</a>
+					{ctaLinks.length > 1 && (
+						<a class="btn btn-outline btn-primary" href={ctaLinks[1].href}>
+							{ctaLinks[1].text}
+						</a>
+					)}
+				</div>
+			)}
+		</div>
+	</div>
+</section>
+

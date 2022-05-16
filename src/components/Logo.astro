@@ -1,0 +1,25 @@
+---
+import anConfig from "@/configs/an-starter-config.mjs";
+
+const { logoSrc, logoText } = anConfig.headerContent;
+const siteName = anConfig.siteMeta?.name || "My Site"; // Use site name as fallback if logoText is not provided
+---
+
+<a class="font-bold py-2 pl-1 pr-2 flex items-center gap-2" href="/" aria-label={!logoText ? siteName : undefined}>
+	{logoSrc && (
+		<img src={logoSrc} width="24" height="24" alt="" loading="lazy" />
+	)}
+	{logoText && (
+		<span class="truncate">{logoText}</span>
+	)}
+	{(!logoSrc && !logoText) && siteName}
+</a>
+
+<style lang="postcss">
+	a {
+		max-width: clamp(16rem,36vw,28rem);
+	}
+	a:focus-visible {
+		@apply outline-none ring-2 ring-primary ring-opacity-60;
+	}
+</style>

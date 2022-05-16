@@ -1,0 +1,25 @@
+---
+import BaseLayout from "@/components/layouts/BaseLayout.astro";
+import Hero from "@/components/Hero.astro";
+import SampleLandingContent from "@/components/SampleLandingContent.astro";
+---
+
+<BaseLayout meta={{ title: "Astronotion Demo — Make an Astro site with content from Notion" }}>
+	<main>
+		<Hero
+			data={{
+				headingText: "Hello, I’m Astrocat",
+				subheadingText:
+					"Anim voluptate velit non velit eiusmod adipisicing eiusmod non ad est. Proident eu nulla labore deserunt esse aliquip deserunt esse labore sint laboris dolor.",
+				avatarSrc: "/images/headshot-320x480.jpg",
+				ctaLinks: [
+					{ href: "https://github.com/ekafyi/astronotion", text: "Get Started" },
+					{ href: "https://astro.build", text: "Learn More" },
+				],
+			}}
+		/>
+		<section class="max-w-5xl mx-auto py-12 px-4">
+			<SampleLandingContent />
+		</section>
+	</main>
+</BaseLayout>

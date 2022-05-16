@@ -1,0 +1,46 @@
+---
+import SocialLink from "@/components/SocialLink.astro";
+
+export interface Props {
+	data: {
+		navLinks: { href: string; text: string; }[];
+		socialLinks: { href: string; text?: string; }[];
+		copyright?: string;
+	}
+}
+
+const { data } = Astro.props as Props;
+const { navLinks, socialLinks, copyright } = data;
+
+---
+
+<footer class="footer footer-center p-10 bg-base-200 text-base-content rounded">
+	{navLinks?.length && (
+		<ul class="flex flex-wrap justify-center gap-0">
+			{navLinks.map(item => (
+				<li>
+					<a href={item.href} class="link link-hover">{item.text}</a>
+				</li>
+			))}
+		</ul>
+	)}
+	{socialLinks?.length && (
+		<section aria-label="social links" class="flex flex-wrap justify-center gap-2">
+			{socialLinks.map(item => (
+				<SocialLink href={item.href} />
+			))}
+		</section>
+	)}
+	{copyright && (
+		<p class="text-xs">{`© ${new Date().getFullYear()} ${copyright}`}</p>
+	)}
+</footer>
+
+<style>
+	li:not(:first-child)::before {
+		content: "|";
+		opacity: .5;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+	}
+</style>

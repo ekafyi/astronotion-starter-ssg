@@ -1,0 +1,26 @@
+---
+import BaseLayout from "@/components/layouts/BaseLayout.astro";
+import ListLayout from "@/components/layouts/ListLayout.astro";
+import PostPreview from "@/components/PostPreview.astro";
+
+import { NotionTexts } from "astronotion/components";
+import { getParentPage } from "astronotion/api";
+
+const EXAMPLE_NOTION_ID = "2ba80ec3-d84d-4647-9f23-ec15ba5e39b0";
+
+const data = await getParentPage(EXAMPLE_NOTION_ID);
+const { title, icon, description = [], childPages = [] } = data;
+
+const basePath = "journal";
+---
+
+<ListLayout content={{ title, icon }}>
+	<Fragment slot="lead-content">
+		<NotionTexts data={description} />
+	</Fragment>
+	<Fragment slot="list-content">
+		{childPages.map((item) => (
+			<PostPreview title={item.title} href={`/${basePath}/${item.id}`} created={item.created} /> 
+		))}
+	</Fragment>
+</ListLayout>

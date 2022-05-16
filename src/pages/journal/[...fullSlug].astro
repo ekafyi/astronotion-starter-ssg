@@ -1,0 +1,37 @@
+---
+import ArticleLayout from "@/components/layouts/ArticleLayout.astro";
+import PostMeta from "@/components/PostMeta.astro";
+import Share from "@/components/Share.svelte";
+
+import { NotionBlocks, NotionPageCover } from "astronotion/components";
+import { getParentPage, getChildPagesStaticPaths } from "astronotion/api";
+
+export async function getStaticPaths() {
+	const EXAMPLE_NOTION_ID = "2ba80ec3-d84d-4647-9f23-ec15ba5e39b0";
+	
+	const parent = await getParentPage(EXAMPLE_NOTION_ID);
+	const childPaths = await getChildPagesStaticPaths({
+		parentId: EXAMPLE_NOTION_ID,
+		childPages: parent.childPages,
+	});
+	return childPaths;
+}
+
+const { pageData } = Astro.props;
+const { title, cover, description, contents, created, updated } = pageData;
+---
+
+<ArticleLayout content={{ title }}>
+	<div slot="header-image" class="md:-mb-4">
+		{cover && <NotionPageCover src={cover.url} pictureProps={{ ar: 3 }} />}
+	</div>
+
+	{/** prettier-ignore */}
+	<PostMeta created={created} updated={updated} />
+
+	<NotionBlocks data={contents} />
+
+	<div class="py-8">
+		<Share client:idle />
+	</div>
+</ArticleLayout>

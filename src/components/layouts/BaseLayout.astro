@@ -1,0 +1,61 @@
+---
+import "@/styles/global.css";
+import anConfig from "@/configs/an-starter-config.mjs";
+
+import HtmlHead from "@/components/HtmlHead.astro";
+import NavDrawerContainer from "@/components/NavDrawerContainer.astro";
+import Footer from "@/components/Footer.astro";
+import ThemeChanger from "@/components/ThemeChanger.svelte";
+
+export interface Props {
+	meta?: {
+		title?: string;
+		description?: string;
+		image?: {
+			src: string;
+			width?: number;
+			height?: number;
+		};
+		canonical?: string;
+		lang?: string;
+	};
+}
+
+const { meta = {} } = Astro.props as Props;
+const { siteMeta: siteMetaConfig, footerContent: footerConfig } = anConfig;
+
+const docLang = meta.lang ?? siteMetaConfig.lang ?? "en";
+---
+
+<html lang={docLang}>
+	<HtmlHead {...meta} />
+	<body>
+		<NavDrawerContainer>
+			<div slot="custom-menu">
+				<ThemeChanger client:load />
+			</div>
+
+			<div id="swup" class="transition-fade">
+				<slot />
+			</div>
+
+			<Footer data={footerConfig} />
+		</NavDrawerContainer>
+	</body>
+</html>
+
+<script is:inline>
+	if (
+		typeof window !== "undefined" &&
+		!!localStorage.getItem("theme") &&
+		!document.documentElement.getAttribute("data-theme")
+	) {
+		document.documentElement.setAttribute("data-theme", localStorage.getItem("theme"));
+	}
+</script>
+
+<script>
+	import Swup from "swup";
+
+	const swup = new Swup();
+</script>

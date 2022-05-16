@@ -1,0 +1,35 @@
+---
+import BaseLayout from "@/components/layouts/BaseLayout.astro";
+
+export interface Props {
+	content?: {
+		title: string;
+		lead?: string;
+		// SEO
+		metaDescription?: string;
+		metaImageSrc?: string;
+		lang?: string;
+	};
+}
+
+const { content } = Astro.props as Props;
+const { title = "", lead, metaDescription, metaImageSrc, lang } = content;
+
+---
+
+<BaseLayout meta={{ title, lang, description: metaDescription, image: { src: metaImageSrc } }}>
+	<slot name="header-image" />
+	<main
+		class="prose lg:prose-lg prose-a:text-primary-focus hover:prose-a:text-base-content prose-code:text-secondary prose-img:mx-auto mx-auto px-4 py-8 md:py-16"
+	>
+		{title && (
+			<h1>{title}</h1>
+		)}
+		{lead && (
+			<p class="lead">{lead}</p>
+		)}
+
+		<slot />
+		
+	</main>
+</BaseLayout>

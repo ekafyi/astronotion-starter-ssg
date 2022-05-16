@@ -1,0 +1,46 @@
+[data-notion-block-type="quote"] {
+	white-space: pre-line;
+}
+
+/* .an-block-image {} */
+.an-block-image__caption {
+	font-size: 0.75em;
+}
+
+p[data-notion-block-type="text"]:empty {
+	display: none;
+}
+
+.an-block-bookmark {
+	display: flex;
+}
+
+.an-block-bookmark__image {
+	margin: 0;
+	width: 6rem;
+	height: 6rem;
+	object-fit: cover;
+}
+
+.an-block-bookmark__icon {
+	margin: 0;
+	object-fit: cover;
+}
+
+.an-block-bookmark__text-wrapper {
+	padding-right: 1.5rem;
+}
+
+.an-block-bookmark__anchor__url {
+	font-size: 0.75em;
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.an-block-bookmark__description {
+	font-size: 0.66em;
+	margin-top: 0.5rem;
+	margin-bottom: 0;
+	opacity: 0.75;
+}

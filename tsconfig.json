@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "types": ["vite/client"],
+    "baseUrl": ".",
+    "paths": {
+      "@/components/*": ["src/components/*"],
+      "@/configs/*": ["src/configs/*"],
+      "@/content/*": ["src/content/*"],
+      "@/lib/*": ["src/lib/*"],
+      "@/styles/*": ["src/styles/*"]
+    }
+  },
+  "include": ["src/**/*"]
+}
