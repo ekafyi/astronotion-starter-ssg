@@ -53,12 +53,18 @@ What to modify:
 
 ⚠️ Make sure the Notion page is shared to public
 
-Example for standalone page:
+### Example for standalone page
+
 https://github.com/ekafyi/astronotion-starter-ssg/blob/main/src/pages/kitchen-sink-notion.astro#L8
 
-Example for collection ("parent" and "child") pages:
+Notion source page: https://ekafyi-playground.notion.site/Plants-1cf6f82effc24ad4aea5a50f88198a7b
+
+### Example for collection ("parent" and "child") pages
+
 - https://github.com/ekafyi/astronotion-starter-ssg/blob/main/src/pages/journal/index.astro#L9
 - https://github.com/ekafyi/astronotion-starter-ssg/blob/main/src/pages/journal/%5B...fullSlug%5D.astro#L10
+
+Notion source page: https://ekafyi-playground.notion.site/2ba80ec3d84d46479f23ec15ba5e39b0
 
 
 ## Deploy
